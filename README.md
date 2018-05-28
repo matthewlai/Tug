@@ -1,2 +1,2 @@
 # Tug
-Tensile strength testing machine
+Tensile strength testing machine.
