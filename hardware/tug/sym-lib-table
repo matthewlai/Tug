@@ -31,4 +31,5 @@
   (lib (name valves1)(type Legacy)(uri /usr/share/kicad/library/valves.lib)(options "")(descr ""))
   (lib (name mc33883)(type Legacy)(uri ${KIPRJMOD}/mc33883.lib)(options "")(descr ""))
   (lib (name mlx91210)(type Legacy)(uri ${KIPRJMOD}/mlx91210.lib)(options "")(descr ""))
+  (lib (name ina240)(type Legacy)(uri /data/Repositories/Tug/hardware/tug/ina240.lib)(options "")(descr ""))
 )

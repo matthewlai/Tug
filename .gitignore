@@ -2,3 +2,5 @@
 _saved_*
 *rescue-*
 *.net
+_autosave*
+*kicad_pcb-bak
