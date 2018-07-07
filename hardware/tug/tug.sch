@@ -1,12 +1,11 @@
 EESchema Schematic File Version 4
-LIBS:tug-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "mar. 31 mars 2015"
+Date "2018-07-03"
 Rev ""
 Comp ""
 Comment1 ""
@@ -1731,7 +1730,7 @@ Wire Wire Line
 Text Notes 6900 5300 0    50   ~ 0
 Gain = 50 (INA240A2)
 Text Notes 5450 4300 0    50   ~ 0
-Full range = 0.0035 * 13 * 50 = 2.275\nPower dissipation = 0.0017 * 13 * 13 = 0.5915W
+Full range = 0.0035 * 13 * 50 = 2.275\nPower dissipation = 0.0035 * 13 * 13 = 0.5915W
 $Comp
 L conn:Conn_01x01 J10
 U 1 1 5B550DC0
