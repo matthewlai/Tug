@@ -1,5 +1,6 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
+// There are many libraries with the same name. We need this one: https://github.com/fmalpartida/New-LiquidCrystal
 #include <LiquidCrystal_I2C.h>
 #pragma GCC diagnostic pop
 
@@ -259,6 +260,7 @@ int drive(int current_setting, unsigned long end_time_ms) {
   unsigned int sum = 0;
   
   while (millis() < end_time_ms) {
+    delayMicroseconds(2);
     int current = read_current();
     int abs_current = abs(current);
 
@@ -307,29 +309,30 @@ void lcd_print_int(int x) {
 
 bool test(int dir) {  
   set_dir(dir);
-  // unsigned long start_time = millis();
   int current_setting = 40;
   int end_count = 0;
   int max_current = 0;
 
-  int current_settings[256];
-  int avg_currents[256];
+  constexpr int kMaxIterations = 256;
+
+  int current_settings[kMaxIterations];
+  int avg_currents[kMaxIterations];
   unsigned int iteration = 0;
   bool stopped = false;
 
   lcd_newline();
   lcd_print("    kg");
 
-  while (iteration < 256 && !(stopped = read_stop_button())) {
+  while (iteration < kMaxIterations && !(stopped = read_stop_button())) {
     int avg_current = drive(current_setting, millis() + 100);
 
     if (avg_current > max_current) {
       max_current = avg_current;
     }
 
-    char buf[64];
-    sprintf(buf, "%d %d", current_setting, avg_current);
-    Serial.println(buf);
+    //char buf[64];
+    //sprintf(buf, "%d %d", current_setting, avg_current);
+    //Serial.println(buf);
 
     lcd_return_to_start_of_line();
     lcd_print_int(static_cast<int>(current_to_kg(avg_current * AmpsPerStep)));
@@ -350,7 +353,7 @@ bool test(int dir) {
       end_count = 0;
     }
     
-    if (current_setting > avg_current) {
+    if (current_setting > (avg_current + 10)) {
       // wait for current to catch up
     } else {
       current_setting += 4;
@@ -388,6 +391,16 @@ bool test(int dir) {
   return stopped;
 }
 
+#if 0
+void test() {
+  set_dir(RetractDir);
+  while (true) {
+    int avg_current = drive(300 /* 8.4A */, millis() + 1000);
+    Serial.println(read_current());
+  }
+}
+#endif
+
 void setup() {
   Serial.begin(115200);
   Serial.setTimeout(10);
@@ -421,9 +434,7 @@ void setup() {
   ADMUX |= (0 & 0x07); // set A0 analog input pin
   ADMUX |= (1 << REFS0); // set reference voltage
   ADCSRA |= (1 << ADEN);  // enable ADC
-
   ADCSRA |= (1 << ADPS2); // 16 prescaler for 76.9 KHz
-
   ADCSRA |= (1 << ADATE); // enable auto trigger
   ADCSRA |= (1 << ADIE);  // enable interrupts when measurement complete
   ADCSRA |= (1 << ADSC);  // start ADC measurements
@@ -487,4 +498,3 @@ void loop() {
     Serial.println("Done");
   }
 }
-
